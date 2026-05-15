@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar,
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -33,7 +32,7 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
-      <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+
 
       <View style={styles.topBar}>
         <View>
