@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { CenterCard } from '../components/booking/CenterCard';
 import { TimeSlotPicker } from '../components/booking/TimeSlotPicker';
 import { Button } from '../components/common/Button';
@@ -60,6 +61,7 @@ const STEPS: { key: Step; label: string }[] = [
 ];
 
 export const BookingScreen: React.FC = () => {
+  const navigation = useNavigation<any>();
   const [step, setStep] = useState<Step>('center');
   const [selectedCenter, setSelectedCenter] = useState<DonationCenter | null>(null);
   const [selectedType, setSelectedType] = useState<DonationType | null>(null);
@@ -284,7 +286,7 @@ export const BookingScreen: React.FC = () => {
             <Text style={styles.successText}>
               Il tuo appuntamento è stato registrato. Riceverai una notifica di promemoria 24h prima.
             </Text>
-            <Button label="Torna alla Home" onPress={resetFlow} fullWidth style={{ marginTop: Spacing.md }} />
+            <Button label="Torna alla Home" onPress={() => { resetFlow(); navigation.navigate('Home'); }} fullWidth style={{ marginTop: Spacing.md }} />
           </View>
         </View>
       </Modal>
