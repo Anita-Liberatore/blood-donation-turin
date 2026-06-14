@@ -18,6 +18,7 @@ export interface User {
   nextEligibleDate: string;
   codiceFiscale: string;
   email: string;
+  city: string;
   phone: string;
   dateOfBirth: string;
   weight: number;

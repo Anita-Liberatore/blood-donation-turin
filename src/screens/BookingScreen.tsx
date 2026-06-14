@@ -11,16 +11,18 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { CenterCard } from '../components/booking/CenterCard';
 import { TimeSlotPicker } from '../components/booking/TimeSlotPicker';
 import { Button } from '../components/common/Button';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { mockCenters } from '../data/mockCenters';
-import { DonationCenter, DonationType, TimeSlot } from '../types';
+import { DonationCenter, DonationType, RootTabParamList, TimeSlot } from '../types';
 import { Colors } from '../theme/colors';
 import { BorderRadius, Spacing } from '../theme/spacing';
 
 type Step = 'center' | 'type' | 'date' | 'time' | 'confirm';
+type BookingNavigation = BottomTabNavigationProp<RootTabParamList>;
 
 const DONATION_TYPES: { type: DonationType; icon: keyof typeof Ionicons.glyphMap; desc: string; color: string }[] = [
   { type: 'Sangue Intero', icon: 'water', desc: 'Donazione completa • 450 ml • ogni 90gg', color: Colors.primary },
@@ -43,7 +45,11 @@ const generateDates = (): { date: Date; label: string; dayNum: string; dayName: 
     if (d.getDay() !== 0) {
       result.push({
         date: d,
-        label: d.toISOString().slice(0, 10),
+        label: [
+          d.getFullYear(),
+          String(d.getMonth() + 1).padStart(2, '0'),
+          String(d.getDate()).padStart(2, '0'),
+        ].join('-'),
         dayNum: d.getDate().toString(),
         dayName: d.toLocaleDateString('it-IT', { weekday: 'short' }).toUpperCase(),
       });
@@ -61,7 +67,7 @@ const STEPS: { key: Step; label: string }[] = [
 ];
 
 export const BookingScreen: React.FC = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<BookingNavigation>();
   const [step, setStep] = useState<Step>('center');
   const [selectedCenter, setSelectedCenter] = useState<DonationCenter | null>(null);
   const [selectedType, setSelectedType] = useState<DonationType | null>(null);

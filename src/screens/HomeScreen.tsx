@@ -9,6 +9,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { BloodTypeCard } from '../components/home/BloodTypeCard';
 import { NextAppointmentCard } from '../components/home/NextAppointmentCard';
 import { StatsRow } from '../components/home/StatsRow';
@@ -16,10 +17,19 @@ import { EmergencyBanner } from '../components/home/EmergencyBanner';
 import { SectionHeader } from '../components/common/SectionHeader';
 import { mockUser } from '../data/mockUser';
 import { mockUpcomingBooking } from '../data/mockDonations';
+import { RootTabParamList } from '../types';
 import { Colors } from '../theme/colors';
 import { Spacing } from '../theme/spacing';
 
-const QUICK_ACTIONS = [
+type HomeNavigation = BottomTabNavigationProp<RootTabParamList>;
+
+const QUICK_ACTIONS: {
+  icon: keyof typeof Ionicons.glyphMap;
+  label: string;
+  color: string;
+  bg: string;
+  tab: keyof RootTabParamList;
+}[] = [
   { icon: 'calendar-outline' as const, label: 'Prenota', color: Colors.primary, bg: Colors.primarySoft, tab: 'Prenota' },
   { icon: 'document-text-outline' as const, label: 'Documenti', color: '#2980B9', bg: '#D6EAF8', tab: 'Documenti' },
   { icon: 'person-outline' as const, label: 'Profilo', color: '#27AE60', bg: '#D5F5E3', tab: 'Profilo' },
@@ -27,7 +37,7 @@ const QUICK_ACTIONS = [
 ];
 
 export const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<HomeNavigation>();
   const lifesSaved = Math.floor(mockUser.totalDonations * 3);
 
   return (
@@ -36,7 +46,7 @@ export const HomeScreen: React.FC = () => {
 
       <View style={styles.topBar}>
         <View>
-          <Text style={styles.topBarTitle}>BloodDonate Torino</Text>
+          <Text style={styles.topBarTitle}>Avis Donazione Torino</Text>
           <Text style={styles.topBarSub}>Centro Donazioni Sangue</Text>
         </View>
         <View style={styles.topBarRight}>
@@ -76,7 +86,7 @@ export const HomeScreen: React.FC = () => {
         </View>
 
         <View style={styles.section}>
-          <SectionHeader title="Accesso Rapido" style={styles.sectionHeaderInner} />
+          <SectionHeader title="Accesso Rapido" />
           <View style={styles.actionsGrid}>
             {QUICK_ACTIONS.map((action) => (
               <TouchableOpacity
@@ -145,7 +155,6 @@ const styles = StyleSheet.create({
   },
   scroll: { paddingBottom: Spacing.xxl, gap: Spacing.lg },
   section: { paddingHorizontal: Spacing.md },
-  sectionHeaderInner: {},
   actionsGrid: { flexDirection: 'row', justifyContent: 'space-between' },
   actionBtn: { alignItems: 'center', gap: Spacing.xs, flex: 1 },
   actionIcon: {

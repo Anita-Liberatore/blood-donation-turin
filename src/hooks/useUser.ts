@@ -1,15 +1,11 @@
 import { useState, useEffect } from 'react';
+import { mockUser } from '../data/mockUser';
 import { User } from '../types';
 
 const fakeApiCall = (): Promise<User> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      try {
-        const data = require('../data/user.json');
-        resolve(data as User);
-      } catch {
-        reject(new Error('Errore nel caricamento utente'));
-      }
+      resolve(mockUser);
     }, 800); // simula latenza di rete
   });
 };

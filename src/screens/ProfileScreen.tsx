@@ -19,6 +19,15 @@ import { mockDonations } from '../data/mockDonations';
 import { Colors } from '../theme/colors';
 import { BorderRadius, Spacing } from '../theme/spacing';
 
+const formatDate = (dateStr: string): string => {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('it-IT', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+};
+
 const InfoRow: React.FC<{
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
@@ -110,20 +119,11 @@ export const ProfileScreen: React.FC = () => {
           <Card>
             <InfoRow icon="person-outline" label="Nome completo" value={`${user.firstName} ${user.lastName}`} />
             <InfoRow icon="card-outline" label="Codice Fiscale" value={user.codiceFiscale} iconColor={Colors.info} iconBg={Colors.infoLight} />
-            <InfoRow icon="calendar-outline" label="Data di nascita" value={user.dateOfBirth} iconColor="#8E44AD" iconBg="#E8DAEF" />
+            <InfoRow icon="calendar-outline" label="Data di nascita" value={formatDate(user.dateOfBirth)} iconColor="#8E44AD" iconBg="#E8DAEF" />
             <InfoRow icon="mail-outline" label="Email" value={user.email} iconColor={Colors.success} iconBg={Colors.successLight} />
             <InfoRow icon="call-outline" label="Telefono" value={user.phone} iconColor={Colors.warning} iconBg={Colors.warningLight} />
             <InfoRow icon="location-outline" label="Città" value={user.city} iconColor={Colors.info} iconBg={Colors.infoLight} />
-
-            <View style={[info.row, { borderBottomWidth: 0 }]}>
-              <View style={[info.iconBox, { backgroundColor: '#FDEBD0' }]}>
-                <Ionicons name="barbell-outline" size={18} color={Colors.warning} />
-              </View>
-              <View style={info.text}>
-                <Text style={info.label}>Peso</Text>
-                <Text style={info.value}>{user.weight} kg</Text>
-              </View>
-            </View>
+            <InfoRow icon="barbell-outline" label="Peso" value={`${user.weight} kg`} iconColor={Colors.success} iconBg={Colors.successLight} />
           </Card>
         </View>
 
